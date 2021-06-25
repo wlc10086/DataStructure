@@ -10,9 +10,6 @@ typedef int Status;
 typedef int Boolean;
 typedef char ElemType;
 
-#define STACK_INIT_SIZE 2	//初始化容量
-#define STACK_INCREMENT 1	//后续增量
-
 typedef struct ListStackNode
 {
 	ElemType data;
