@@ -97,7 +97,7 @@ Data：
 2）嵌套集合表示发（文氏图表示法）  
 3）凹入表示法  
 4）广义表表示法  
-![树的表示方法](../images/ch08-01-03-01.png)  
+<img src="../images/ch08-01-03-01.png" alt="树的表示方法" style="zoom:130%;" />  
 
 ## 1.4 树的存储结构
   **树的顺序存储**适合**树中结点比较“满”的情况**，例如满二叉树或者完全二叉树或则其他比较满的树，**对于一般的树用顺序存储结构是非常浪费存储空间的**。在实际应用中，常用链式存储方式来表示树。
@@ -106,7 +106,7 @@ Data：
 
 ### 1.4.1 双亲存储表示法
 双亲存储表示法（parent tree）一般采用顺序存储结构实现。即用一组连续的存储空间来存储树的结点，每个结点包括数据元素的值本身和指向结点双亲位置的指针（伪指针）。双亲存储表示法的定义如下：  
-![](../images/ch08-01-04-01.png)  
+<img src="../images/ch08-01-04-01.png" style="zoom:150%;" />  
 
 ```c
 #define MAXTREESIZE 100
@@ -120,7 +120,7 @@ typedef struct
 typedef struct
 {
    PTreeNode   nodes[MAXTREESIZE];
-   int   node_count;  //结点总数n 
+   int   nodeCount;  //结点总数n 
    int  root; // 根结点的位置r
 }PTree;
 ```
@@ -139,7 +139,7 @@ typedef struct CTNode  // 孩子链表节点
 
 typdef struct    //表头结点
 {
-  ElemType data;      // 存放结点中的数据
+  DataType data;      // 存放结点中的数据
   ChildPtr firstchild;// 指向第一个孩子的指针
 }CTBox;
 
@@ -159,7 +159,7 @@ int n，r;//树的结点数n和根结点的位置r
 ```c
 typdef struct 
 {
-  ElemType data; // 存放结点中的数据
+  DataType data; // 存放结点中的数据
   int   parent;  // 存放双亲结点索引
   ChildPtr firstchild;// 指向第一个孩子的指针
 }PCTreeNode;
@@ -186,7 +186,7 @@ typedef struct
 ```c
 typedef struct CSNode
 {
-    ElemType data;
+    DataType data;
     Struct CSNode *firstchild; // 第一个孩子结点
     Struct CSNode *nextsibling; // 下一个兄弟结点
 }CSNode, *CSTree;
@@ -230,7 +230,7 @@ typedef struct CSNode
 （1）在二叉树的第i层上至多有2^(i-1)个结点（i>=1）  
 （2）深度为k的二叉树至多有2^k -1个结点（k>=1）  
 
-## 2.2 二叉树的抽象数据类型
+## 二叉树的抽象数据类型
 
 ```
 ADT BinaryTree { 
@@ -289,18 +289,22 @@ ADT BinaryTree {
   在实际使用上,二叉树的顺序存储结构一般应用在存储完全二叉树或比较满的树,如果是存储比较稀疏的树甚至是斜树,会造称存储空间的严重浪费。  
 ![img](../images/ch08-02-03-03.jpg)  
 
+
+
 ## 2.4 叉树的链式存储结构
 
 由于顺序存储的适用性不强，因此常用链式存储结构，**二叉链表**定义如下。
 ```c
-typedef char ElemType;  // 定义结点数据的类型
+typedef char DataType;  // 定义结点数据的类型
 typedef struct BiTNode
 {
-    ElemType data;  // 数据域 
+    DataType data;  // 数据域 
     Struct BiTNode *lchild;  // 左子树
     Struct BiTNode *rchild;  // 右子树
 }BiTNode,*BiTree;
 ```
+
+
 
 ## 2.5 二叉树的遍历
 
@@ -362,9 +366,11 @@ void LRDVisit(BiTree *T)    // 后序遍历(LRD)
 
 **=> ABCDEFGHIJK**
 
+
+
 ## 2.6 创建二叉树
 
-创建一棵二叉树,约定用户遵照某种方式输入数据（常用前序遍历[DLR]的方式）。
+创建一棵二叉树，约定用户遵照某种方式输入数据（常用前序遍历[DLR]的方式，当然也可以使用其他顺序）。
 
 ```c
 void CreateBiTree( BiThrTree *T )
@@ -382,8 +388,20 @@ void CreateBiTree( BiThrTree *T )
 }
 ```
 
-**
-****2.6.2 二叉树的删除**二叉树的删除和遍历类型，使用**后续遍历**，先删除左右子树，在删除结点。
+
+## 2.2 二叉树的删除
+二叉树的删除使用**后序遍历**，先删除左右子树，在删除结点。
+```c
+// 删除二叉树，使用后序遍历的顺序
+void DeleteBiTree(BiTree* T) {
+	if (*T != NULL) {
+		DeleteBiTree(&(*T)->lchild);
+		DeleteBiTree(&(*T)->rchild);	
+		free(*T);
+		*T = NULL;
+	}
+}
+```
 
 ## 2.7 线索二叉树
 
@@ -396,9 +414,9 @@ void CreateBiTree( BiThrTree *T )
 
 以这个完全二叉树为例：
 
-> 前序遍历：ABDHIECFG  
-> 中序遍历：HDIBEAFCG  
-> 后序遍历：HIDEBFGCA  
+> （DLR）前序遍历：ABDH##I##E##CF##G##  
+> （LDR）中序遍历：#H#D#I#B#E#A#F#C#G#  
+> （LRD）后序遍历：##H##ID##EBFGCA  
 发现，存在一些空间没有发生作用，所以，可以把上面的空余空间利用起来。  
 ![img](../images/ch08-02-07-02.png)  
 
@@ -411,12 +429,14 @@ typedef char ElemType;
 // Link(0):表示指向左右孩子的指针
 // Thread(1):表示指向前驱后继的线索
 typedef enum { Link, Thread } PointerTag;
+
 // 线索二叉树节点结构
 typedef struct _BiThreadNode {
     char data;
     struct _BiThreadNode* lchild, * rchild;
     PointerTag ltag, rtag;
 } BiThreadNode, * BiThreadTree;
+
 // 创建一棵二叉树,约定用户遵照前序遍历的方式输入数据
 void CreateBiTree(BiThreadTree* T){
     char c;
@@ -434,17 +454,19 @@ void CreateBiTree(BiThreadTree* T){
 }
 // 全局变量，始终指向刚刚访问过的结点
 BiThreadTree pre;
+
 // 中序遍历线索化 LDR
 void InThreading(BiThreadTree T)
 {
     if (T){
         InThreading(T->lchild); //递归左孩子线索化 
+        
         if (!T->lchild) { // 如果左孩子为空
             T->ltag = Thread;
             T->lchild = pre;  //lchild指向刚刚访问的结点
         }
-        if (!pre->rchild){  // 如右孩子为空
         
+        if (!pre->rchild){  // 如右孩子为空
             pre->rtag = Thread;
             pre->rchild = T;  //指向后继
         }
@@ -452,6 +474,7 @@ void InThreading(BiThreadTree T)
         InThreading(T->rchild);     //递归右孩子线索化
     }
 }
+
 // 创建中序线索二叉树
 void InOrderThreading(BiThreadTree* p, BiThreadTree T)
 {
@@ -470,10 +493,12 @@ void InOrderThreading(BiThreadTree* p, BiThreadTree T)
         (*p)->rchild = pre;
     }
 }
+
 void visit(char c)
 {
     printf("%c", c);
 }
+
 // 中序遍历二叉树,非递归
 void InOrderTraverse(BiThreadTree T)
 {
@@ -491,10 +516,14 @@ void InOrderTraverse(BiThreadTree T)
         p = p->rchild;
     }
 }
+
+
 int main()
 {
     BiThreadTree P, T = NULL;
     CreateBiTree(&T);
+    
+    // 线索化
     InOrderThreading(&P, T);
     printf("中序遍历输出,结果为: ");
     InOrderTraverse(P);
@@ -502,6 +531,8 @@ int main()
     return 0;
 }
 ```
+
+
 
 ## 2.8 树、森林与二叉树的转换
 
@@ -537,48 +568,71 @@ int main()
 
 树、森林的前根（序）遍历和二叉树的前序遍历结果相同，树、森林的后根（序）遍历和二叉树的中序遍历结果相同！
 
+
+
 ## 2.9 二叉树的应用
 
-### 2.9.1 二叉查找树(又称为二叉搜索树)
+### 2.9.1 二叉查找树
+二叉查找树，又称为二叉搜索树，又成为二叉排序树  
+二叉排序树要么是空二叉树，要么具有如下特点：
+二叉排序树中，如果其根结点有左子树，那么左子树上所有结点的值都小于根结点的值；
+二叉排序树中，如果其根结点有右子树，那么右子树上所有结点的值都大小根结点的值；
+二叉排序树的左右子树也要求都是二叉排序树；
 
-**（略）**
+1） ** 使用二叉排序树查找关键字**
+二叉排序树中查找某关键字时，查找过程类似于次优二叉树，在二叉排序树不为空树的前提下，首先将被查找值同树的根结点进行比较，会有 3 种不同的结果：  
+如果相等，查找成功；  
+如果比较结果为根结点的关键字值较大，则说明该关键字可能存在其左子树中；  
+如果比较结果为根结点的关键字值较小，则说明该关键字可能存在其右子树中；  
+实现函数为：（运用递归的方法）  
+
+```c
+BiTree SearchBST(BiTree T,KeyType key){
+    //如果递归过程中 T 为空，则查找结果，返回NULL；或者查找成功，返回指向该关键字的指针
+    if (!T || key==T->data) {
+        return T;
+    }else if(key<T->data){
+        return SearchBST(T->lchild, key); //递归遍历其左孩子
+    }else{
+        return SearchBST(T->rchild, key); //递归遍历其右孩子
+    }
+}
+```
+
+2）**二叉排序树中插入关键字 **
+
+3）**二叉排序树中删除关键字**
 
 ### 2.9.2 哈夫曼树与哈夫曼编码
 
-**哈夫曼树**又称为**最优二叉树**或**最优搜索树**，是一种带权路径长度最短的二叉树。哈夫曼编码是首个实用的压缩编码方案，即使在今天的许多知名压缩算法里，依然可以见到哈夫曼编码的影子。
-
-赋给树中叶结点一个有某种意义的实数，称为该**结点的权。**
-
-树中每个叶子结点的路径长度之和，称为**树的路径长度**
-
-**从树根结点到该结点之间的路径长度与该结点上权的乘积**称为**结点****的带权路径长度**。
-
-**树中所有叶子结点的带权路径长度之和**称为该**树的****带权路径长度，简称WPL(Weighted paths length)**。
-
-WPL的值越小，说明构造出来的二叉树的性能越佳。当WPL最小时，称为最优二叉树。
-
+**哈夫曼树**又称为**最优二叉树**或**最优搜索树**，是一种带权路径长度最短的二叉树。哈夫曼编码是首个实用的压缩编码方案，即使在今天的许多知名压缩算法里，依然可以见到哈夫曼编码的影子。 
+赋给树中叶结点一个有某种意义的实数，称为该**结点的权。**  
+树中每个叶子结点的路径长度之和，称为**树的路径长度**  
+**从树根结点到该结点之间的路径长度与该结点上权的乘积** 称为**结点的带权路径长度**  
+**树中所有叶子结点的带权路径长度之和**称为该**树的带权路径长度，简称WPL(Weighted paths length)**。  
+WPL的值越小，说明构造出来的二叉树的性能越佳。当WPL最小时，称为**最优二叉树**。  
 <img src="../images/ch08-02-09-02.png" alt="img" style="zoom:80%;" />  
 
 **1. 说明**
 
-1) 当叶子上权值相同时，完全二叉树一定是最优二叉树。否则完全二叉树不一定是最优二叉树。
-
-2) 在最优二叉树中，权值越大的叶子离根越近
-
-3) 最优二叉树形态不唯一，但WPL最小
+1) 当叶子上权值相同时，完全二叉树一定是最优二叉树。否则完全二叉树不一定是最优二叉树。  
+2) 在最优二叉树中，权值越大的叶子离根越近  
+3) 最优二叉树形态不唯一，但WPL最小  
 
 **2. 哈夫曼树的构造方法**  
 1）在森林中选出两棵根节点的权值最小的二叉树  
 2）合并两棵选出的二叉树，增加一个新结点作为新二叉树的根，权值为左右孩子的权值之和  
 3）重复上述两个操作，直到构造成一棵树，结果是一棵哈夫曼树。  
-![img](../images/ch08-02-09-03.png)  
+<img src="../images/ch08-02-09-03.png" alt="img" style="zoom:150%;" />  
 
 **3. 哈夫曼编码**  
-* 名词解释：定长编码、变长编码、前缀码
-* 变长编码：单个编码的长度不一致，可以根据整体出现的频率来调节
-* 前缀编码：就是没有任何码字是其他码字的前缀(哈夫曼编码就是一种前缀编码)
+
+* 名词解释：定长编码、变长编码、前缀码  
+* 变长编码：单个编码的长度不一致，可以根据整体出现的频率来调节  
+* 前缀编码：就是没有任何码字是其他码字的前缀(哈夫曼编码就是一种前缀编码)  
 
 **4. 代码实现**  
+
 ```c
 typedef struct
 {
