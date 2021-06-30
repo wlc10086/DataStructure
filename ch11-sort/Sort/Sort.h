@@ -6,18 +6,22 @@
 #define MAX_SIZE 100
 typedef int DataType;
 
+
+void swap(DataType R[], int i, int j);
+
+
 class Sort
 {
 public:
 	// 打印 
-	void ShowList(DataType R[], int n);
+	void ShowList(DataType R[], int begin, int end);
 	
 	// 冒泡排序 
 	void BobbleSort(DataType R[], int n);
 	
 	// 快速排序 
 	void QuickSort(DataType R[], int n);
-	
+ 	
 	// 直接插入排序 
 	void InsertSort(DataType R[], int n);
 	
