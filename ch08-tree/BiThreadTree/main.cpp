@@ -56,10 +56,12 @@ void InThreading(BiThreadTree T)
 // 创建中序线索二叉树
 void InOrderThreading(BiThreadTree* p, BiThreadTree T)
 {
+    // 空结点
     *p = (BiThreadTree)malloc(sizeof(BiThreadNode));
     (*p)->ltag = Link;
     (*p)->rtag = Thread;
     (*p)->rchild = *p;  //初始化(要注意T为空情况)
+    
     if (!T) {
         (*p)->lchild = *p;
     }
@@ -105,6 +107,8 @@ int main()
     // 线索化
     InOrderThreading(&P, T);
     printf("中序遍历输出,结果为: ");
+
+    // 非递归的中序遍历
     InOrderTraverse(P);
     printf("\n");
     return 0;
