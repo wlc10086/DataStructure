@@ -10,7 +10,7 @@ class Sort
 {
 public:
 	// ¥Ú”° 
-	void ShowList(DataType R[], int n);
+	void ShowList(DataType R[], int begin, int end);
 	
 	// √∞≈›≈≈–Ú 
 	void BobbleSort(DataType R[], int n);
