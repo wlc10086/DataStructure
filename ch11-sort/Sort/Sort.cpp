@@ -2,44 +2,73 @@
 typedef int DataType;
 
 
+void swap(DataType R[], int i, int j) {
+	DataType temp;
+	temp = R[i];
+	R[i] = R[j];
+	R[j] = temp;
+}
+
+
 void Sort::BobbleSort(DataType R[], int n)
 {
-	DataType temp = 0;
-	bool isSorted = true; 	// 有序标志 
+	bool isSorted = true;
 
-	if (R != NULL)
-	{
-		for (int i = n - 1; i > 0; i--)
-		{
-			isSorted = true;
-			for (int j = 0; j < i; j++)
-			{
-				if (R[j] > R[j + 1])
-				{
-					// 比较大的值往后挪动
-					temp = R[j];
-					R[j] = R[j + 1];
-					R[j + 1] = temp;
-					isSorted = false;
-				}
-			}
+	for (int i = n - 1; i > 0; i--){
 
-			if (isSorted)
-			{
-				break; // 如果确定是有序的，跳过后续操作 
+		for (int k = 1; k <= i; k++) {
+
+			if (R[k] > R[k + 1]) {
+				swap(R, k, k + 1);
+				isSorted = false;
 			}
 		}
+
+		if (isSorted) {
+			break;
+		}
+		isSorted = true;
 	}
 }
+//void Sort::BobbleSort(DataType R[], int n)
+//{
+//	DataType temp = 0;
+//	bool isSorted = true; 	// 有序标志 
+//
+//	if (R != NULL)
+//	{
+//		for (int i = n - 1; i > 0; i--)
+//		{
+//			isSorted = true;
+//			for (int j = 0; j < i; j++)
+//			{
+//				if (R[j] > R[j + 1])
+//				{
+//					// 比较大的值往后挪动
+//					temp = R[j];
+//					R[j] = R[j + 1];
+//					R[j + 1] = temp;
+//					isSorted = false;
+//				}
+//			}
+//
+//			if (isSorted)
+//			{
+//				break; // 如果确定是有序的，跳过后续操作 
+//			}
+//		}
+//	}
+//}
 
 
 void Sort::QuickSort(DataType R[], int n)
 {
 	if (R != NULL && n > 1)
 	{
-		QuickSort(R, 0, n - 1);
+		QuickSort(R, 1, n);
 	}
 }
+
 
 
 
@@ -77,9 +106,6 @@ void Sort::QuickSort(DataType R[], int left, int right)
 	}
 }
 
-
-
-
 // 简单插入排序
 void Sort::InsertSort(DataType R[], int n)
 {
@@ -105,6 +131,7 @@ void Sort::InsertSort(DataType R[], int n)
 
 
 
+// 希尔排序
 void Sort::ShellSort(DataType R[], int n)
 {
 	if (R != NULL && n > 1)
@@ -134,6 +161,8 @@ void Sort::ShellSort(DataType R[], int n)
 }
 
 
+
+
 // 选择排序：每次从右边选出一个最值，放到左边
 void Sort::SelectSort(DataType R[], int n)
 {
@@ -148,22 +177,13 @@ void Sort::SelectSort(DataType R[], int n)
 				min = j;
 		}
 
-		if (min != i)
-		{
-			temp = R[i];
-			R[i] = R[min];
-			R[min] = temp;
+		if (min != i){
+			swap(R, i, min);
 		}
 	}
 }
 
 
-void swap(DataType R[], int i, int j) {
-	DataType temp;
-	temp = R[i];
-	R[i] = R[j];
-	R[j] = temp;
-}
 
 // 构造大顶堆 
 void Sort::HeapAdjust(DataType R[], int s, int n)
@@ -258,7 +278,7 @@ void Sort::Meging(DataType* R1, int size1, DataType* R2, int size2)
 
 void Sort::ShowList(DataType R[], int begin, int end)
 {
-	if (R != NULL && end > begin > 0)
+	if (R != NULL && end > begin )
 	{
 		for (int i = begin; i < end; i++)
 		{
