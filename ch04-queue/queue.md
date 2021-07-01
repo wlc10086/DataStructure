@@ -48,13 +48,12 @@ ADT Queue{
 typedef char QElemType;
 typedef struct {    
     QElemType *base;  // 数据域
-	int front;
-	int rear;
+	int front, rear;  // 队头和队尾
 }SqQueue;
 ```
 
 
-1. 队列的链式存储    
+# 4 队列的链式存储    
 
 ```c
 typedef char QElemType;
