@@ -1,9 +1,9 @@
-#include "ListQueue.h"
+#include "LinkQueue.h"
 #include <assert.h>
 
 int main()
 {
-	ListQueue Q;
+	LinkQueue Q;
 	InitQueue(&Q);
 	EnQueue(&Q, 'A');
 	EnQueue(&Q, 'B');

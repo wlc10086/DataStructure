@@ -22,17 +22,17 @@ typedef struct
 {
     QueuePtr front; // 队头指针
     QueuePtr rear; // 队尾指针
-}ListQueue;
+}LinkQueue;
 
-Status	InitQueue(ListQueue* Q);
-int		QueueLength(ListQueue *Q);
-Boolean QueueEmpty(ListQueue *Q);
+Status	InitQueue(LinkQueue* Q);
+int		QueueLength(LinkQueue *Q);
+Boolean QueueEmpty(LinkQueue *Q);
 
-Status	EnQueue(ListQueue* Q, QElemType e); // 入队
-Status  DeQueue(ListQueue* Q, QElemType* e); // 出队
+Status	EnQueue(LinkQueue* Q, QElemType e); // 入队
+Status  DeQueue(LinkQueue* Q, QElemType* e); // 出队
 
 typedef void(*visit)(QElemType e);
 void printQueueELem(QElemType e);
-void    QueueTraverse(ListQueue *Q, visit v);
+void    QueueTraverse(LinkQueue *Q, visit v);
 
 

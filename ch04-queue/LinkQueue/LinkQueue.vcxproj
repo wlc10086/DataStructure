@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{926c01ec-5b73-4c6f-bca4-6f1e15c5359b}</ProjectGuid>
-    <RootNamespace>ListQueue</RootNamespace>
+    <ProjectGuid>{bf8fd6ca-89f7-413b-b001-335189c77a12}</ProjectGuid>
+    <RootNamespace>LinkQueue</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -139,11 +139,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="LinkQueue.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="ListQueue.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ListQueue.h" />
+    <ClInclude Include="LinkQueue.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

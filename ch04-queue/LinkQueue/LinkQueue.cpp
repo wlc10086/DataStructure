@@ -1,9 +1,9 @@
-#include "ListQueue.h"
+#include "LinkQueue.h"
 #include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>
 
-Status InitQueue(ListQueue* Q){
+Status InitQueue(LinkQueue* Q){
 
 	assert(Q != NULL);
 	
@@ -22,7 +22,7 @@ Status InitQueue(ListQueue* Q){
 }
 
 
-int QueueLength(ListQueue *Q)
+int QueueLength(LinkQueue *Q)
 {
 	assert(Q != NULL);
 	int length = 0;
@@ -36,14 +36,14 @@ int QueueLength(ListQueue *Q)
 
 
 
-Boolean QueueEmpty(ListQueue* Q)
+Boolean QueueEmpty(LinkQueue* Q)
 {
 	assert(Q != NULL);
 	return Q->front == Q->rear;
 }
 
 // 入队
-Status EnQueue(ListQueue* Q, QElemType e)
+Status EnQueue(LinkQueue* Q, QElemType e)
 {
 	assert(Q != NULL);
 	QueuePtr pNewNode = (QueuePtr)malloc(sizeof(QNode));
@@ -60,7 +60,7 @@ Status EnQueue(ListQueue* Q, QElemType e)
 }
 
 // 出队
-Status DeQueue(ListQueue* Q, QElemType* e)
+Status DeQueue(LinkQueue* Q, QElemType* e)
 {
 	assert(Q != NULL);
 
@@ -80,7 +80,7 @@ void printQueueELem(QElemType e)
 	printf("%c ", e);
 }
 
-void QueueTraverse(ListQueue *Q, visit v)
+void QueueTraverse(LinkQueue *Q, visit v)
 {
 	if (!QueueEmpty(Q)) {
 		QueuePtr pNode = Q->front->next;
