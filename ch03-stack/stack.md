@@ -1,6 +1,6 @@
 # 1. 栈的定义
 
-栈是一种特殊的线性表,插入和删除的运算只能在表的一端（表尾）进行,运算的一端称为栈顶,另一端称为栈底。
+栈是一种特殊的线性表，插入和删除的运算只能在表的一端（表尾）进行，运算的一端称为**栈顶**，另一端称为**栈底**。
 
 
 # 2. 栈的抽象数据类型
@@ -40,6 +40,8 @@ ADT Stack{
 }END ADT
 ```
 
+
+
 # 3. 栈的顺序存储结构
 
 ```c
@@ -49,9 +51,7 @@ typedef struct{
   ElemType data[MAXSIZE];
   int top; //用于标记栈顶位置
 }SqStack;
-```
 
-```c
 // 描述二
 #define STACK_INIT_SIZE 20  // 初次初始大小
 #define STACK_INCREMENT 10  // 增量
@@ -64,18 +64,21 @@ typedef struct
 }SqStack;
 ```
 
+
+
 # 4. 栈的链式存储结构
 
-由于栈的插入和删除运算都在一端进行,因此在用链式存储实现的过程中,常常表现为在链表头进行操作,且在操作的过程中,也常常添加一表头结点简化操作（备注：但有时候没有空头结点反而容易操作）。  
+由于栈的插入和删除运算都在一端进行,因此在用链式存储实现的过程中,常常表现为在链表头进行操作,且在操作的过程中,也常常添加一表头结点简化操作（备注：但有时候没有空头结点反而容易操作）。 
 起始就是链表的操作，入栈和出栈都在链表头操作。
 
 ```c
-typedef struct ListStackNode
+typedef struct LinkStackNode
 {
 	ElemType data;
-	struct ListStackNode* next;
-}ListStackNode, *ListStack;
+	struct LinkStackNode* next;
+}LinkStackNode, *ListStack;
 ```
+
 
 
 # 5.栈的应用---逆波兰计算器

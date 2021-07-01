@@ -33,11 +33,14 @@ Status Push(SqStack* s, ElemType e)
 {
 	assert(s != NULL);
 	int length = StackLength(s);
-	if( length == s->StackSize) {
 
+	if( length == s->StackSize) {
+		free(s->base);
+		
 		int newStackSize = length + STACK_INCREMENT;
-		s->base = (ElemType*)realloc(s->base, sizeof(ElemType) * newStackSize);
+		s->base = (ElemType*)malloc(sizeof(ElemType) * newStackSize);
 		if (s->base == NULL) {
+			printf("malloc memory fail\n");
 			return ERROR;
 		}
 		s->StackSize = newStackSize;
@@ -52,9 +55,11 @@ Status Push(SqStack* s, ElemType e)
 Status Pop(SqStack* s, ElemType* e)
 {
 	if (StackEmpty(s)) {
+		printf("stack is empty\n");
 		return FALSE;
 	}
 	*e = *(--s->top);
+	return TRUE;
 }
 
 
