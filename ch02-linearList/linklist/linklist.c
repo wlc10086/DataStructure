@@ -1,231 +1,16 @@
+#include "linklist.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
 
 
-
-#define BOOL int
-
-#ifndef TRUE
-#define TRUE 1
-#endif // !TRUE
-
-#ifndef FALSE
-#define FALSE 0
-#endif // !FALSE
-
-typedef int ElemType;
-
-typedef struct LNode {
-	ElemType data;
-	struct LNode* next;
-}LNode, *LinkList;
-
-// 
-BOOL InitList(LinkList* L) {
-
-	assert(L != NULL);
-
-	// 头空节点
-	LinkList pNode = malloc(sizeof(LNode));
-	if (pNode == NULL) {
-		return FALSE;
-	}
-	pNode->data = 0xffffffff;
-	pNode->next = NULL;
-	*L = pNode;
-	return TRUE;
-}
-
-
-BOOL ListEmpty(LinkList L) {
-	assert(L != NULL);
-	return L->next == NULL;
-}
-
-
-int ListLength(LinkList L) {
-	assert(L != NULL);
-	LNode* p = L->next;
-
-	int length = 0;
-	while (p != NULL) {
-		p = p->next;
-		++length;
-	}
-	return length;
-}
-
-
-// 
-BOOL GetElem(LinkList  L, int i, ElemType* e) {
-
-	assert(L != NULL);
-	LNode* p = L->next;
-	int index = 0;
-	while (p != NULL) {
-	
-		if (index == i-1) {
-			*e = p->data;
-			return TRUE;
-		}
-
-		p = p->next;
-		++index;
-	}
-	return FALSE;
-}
-
-
-
-
-// 
-BOOL ListDelete(LinkList L, int i, ElemType* e)
-{
-	assert(L != NULL);
-	assert(i > 0);
-
-	int index = 1;
-	LNode* pPre = L;
-	LNode* pNode = L->next;
-
-	while (pNode != NULL) {
-		if (index == i) {
-			*e = pNode->data;
-
-			pPre->next = pNode->next;
-			free(pNode);
-			return TRUE;
-		}
-
-		pPre = pNode;
-		pNode = pNode->next;
-		++index;
-	}
-
-	return FALSE;
-}
-
-
-BOOL ClearList(LinkList L) {
-
-	assert(L != NULL);
-	LNode* pNode = L->next;
-
-	while (pNode != NULL) {
-		LNode* pTmp = pNode;
-		pNode = pNode->next;
-		L->next = pNode;
-
-#ifdef _DEBUG
-		pTmp->data = 0;
-		pTmp->next = NULL;
-#endif // _DEBUG
-		free(pTmp);
-	}
-	return TRUE;
-}
-
-
-BOOL DestroyList(LinkList* L) {
-
-	assert(L != NULL);
-	ClearList(*L);
-
-	free((*L));
-	*L = NULL;
-	return TRUE;
-}
-
-
-
-
-
-
-
-typedef int (*compare)(ElemType a, ElemType b);
-int compareElem(ElemType a, ElemType b) {
-	return a - b;
-}
-
-int LocateElem(LinkList L, ElemType e, compare v)
-{
-	assert(L != NULL);
-	LNode* pNode = L->next;
-	int index = 0;
-
-	while (pNode != NULL) {
-		if (v(pNode->data, e) == 0) {
-			return ++index;
-		}
-
-		++index;
-		pNode = pNode->next;
-	}
-	return 0;
-}
-
-
-
-//
-//  初始条件：线性表L已存在,1≤i≤ListLength(L)+1
-//  操作结果：在L中第i个位置之前插入新的数据元素e, L的长度加1
-//
-BOOL ListInsert(LinkList L, int i, ElemType e) {
-
-	assert(L != NULL);
-
-	int index = 0;
-	LNode* pNode = L; // 指向头空节点
-
-	while (pNode != NULL) {
-		
-		if (index == i - 1) { // 找到位置
-			
-			LNode* node = (LNode*)malloc(sizeof(LNode));
-			if (node == NULL) {
-				return FALSE;
-			}
-			node->next = NULL;
-			node->data = e;
-			
-			// 在尾部，直接插入到尾部
-			if (pNode->next == NULL) {
-				pNode->next = node;
-			}else {
-				// 不是尾部
-				node->next = pNode->next;
-				pNode->next = node;
-			}
-			return TRUE;
-		}
-
-		index++;
-		pNode = pNode->next;
-	}
-
-	return FALSE;
-}
-
-
-
-
-
-typedef void (*visit)(ElemType e);
-
 void printElem(ElemType e) {
 	printf("%d ", e);
 }
 
-void ListTraverse(LinkList L, visit v)
-{
-	assert(L != NULL);
-	LNode* pNode = L->next;
-	while (pNode != NULL) {
-		v(pNode->data);
-		pNode = pNode->next;
-	}
-	printf("\n");
+int compareElem(ElemType a, ElemType b) {
+	return a - b;
 }
 
 
@@ -268,4 +53,170 @@ int main()
 	ClearList(L);
 	DestroyList(&L);
 	return 0;
+}
+
+
+BOOL InitList(LinkList* L) {
+
+	assert(L != NULL);
+
+	// 头空节点
+	*L = malloc(sizeof(LNode));
+	assert(*L != NULL);
+
+	(*L)->data = 0xffffffff;
+	(*L)->next = NULL;
+
+	return TRUE;
+}
+
+BOOL DestroyList(LinkList* L) {
+
+	assert(L != NULL);
+	ClearList(*L);
+	free((*L));
+	*L = NULL;
+	return TRUE;
+}
+
+BOOL ClearList(LinkList L) {
+
+	assert(L != NULL);
+	LNode* pNode = L, *pDelNode = NULL;
+	while (pNode->next != NULL) {
+		pDelNode = pNode->next;
+		pNode->next = pDelNode->next;
+		free(pDelNode);
+	}
+	return TRUE;
+}
+
+BOOL ListEmpty(LinkList L) {
+	assert(L != NULL);
+	return L->next == NULL;
+}
+
+
+int ListLength(LinkList L) {
+	
+	assert(L != NULL);
+
+	LNode* p = L->next;
+	int length = 0;
+	while (p != NULL) {
+		p = p->next;
+		++length;
+	}
+	return length;
+}
+
+
+// 
+BOOL GetElem(LinkList  L, int index, ElemType* e) {
+
+	assert(L != NULL);
+
+	if (index <1 || index > ListLength(L)) {
+		printf("out of range\n");
+		return FALSE;
+	}
+
+	LNode* p = L;
+	for (int i = 1; i <= index; i++) {
+		p = p->next;
+	}
+
+	*e = p->data;
+	return FALSE;
+}
+
+
+int LocateElem(LinkList L, ElemType e, fCompare compare)
+{
+	assert(L != NULL);
+	LNode* pNode = L->next;
+	int index = 0;
+
+	while (pNode != NULL) {
+		if (compare(pNode->data, e) == 0) {
+			return ++index;
+		}
+		++index;
+		pNode = pNode->next;
+	}
+	return 0;
+}
+
+
+
+BOOL ListInsert(LinkList L, int index, ElemType e) {
+
+	assert(L != NULL);
+
+	int length = ListLength(L);
+	if (index <1 || index > length + 1) {
+		printf("out of range\n");
+		return FALSE;
+	}
+
+	// 新建点
+	LNode* pNewNode = (LNode*)malloc(sizeof(LNode));
+	if (pNewNode == NULL) {
+		printf("malloc fail\n");
+		return FALSE;
+	}
+	pNewNode->next = NULL;
+	pNewNode->data = e;
+
+	LNode* pNode = L; // 指向头空节点
+
+	// 移动到待插入点
+	for (int i = index; i > 1; i--) {
+		pNode = pNode->next;
+	}
+
+	if (index == length + 1) { // 尾部插入
+		pNode->next = pNewNode;
+	}else {	
+		// 插入点在中间
+		pNewNode->next = pNode->next;
+		pNode->next = pNewNode;
+	}
+
+	return TRUE;
+}
+
+
+BOOL ListDelete(LinkList L, int index, ElemType* e)
+{
+	assert(L != NULL);
+
+	int length = ListLength(L);
+	
+	if (index <1 || index > length) {
+		printf("out of range\n");
+		return FALSE;
+	}
+
+	LNode* pNode = L;
+	// 移动到要删除点的前一个位置
+	for (int i = 1; i < index; i++) {
+		pNode = pNode->next;
+	}
+
+	LNode* pDelNode = pNode->next;
+	pNode->next = pDelNode->next;
+	free(pDelNode);
+	return TRUE;
+}
+
+
+
+void ListTraverse(LinkList L, fVisit visit)
+{
+	assert(L != NULL);
+	for (LNode* pNode = L->next; pNode != NULL; pNode = pNode->next) {
+		visit(pNode->data);
+	}
+	printf("\n");
 }

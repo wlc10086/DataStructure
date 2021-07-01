@@ -93,7 +93,7 @@ void printElem(ElemType e) {
 	printf("%c ", e);
 }
 
-void  ListTraverse(StaticLinkList L, visit v)
+void  ListTraverse(StaticLinkList L, fVisit v)
 {
 	for (int i = L[MAXSIZE - 1].cur; i != 0; i = L[i].cur) {
 		v(L[i].data);

@@ -141,6 +141,9 @@
   <ItemGroup>
     <ClCompile Include="linklist.c" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="linklist.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

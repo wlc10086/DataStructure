@@ -36,6 +36,6 @@ Status	ListDelete(StaticLinkList L, int i);	//删除在L中第i个元素
 
 
 void printElem(ElemType e);
-typedef void    (*visit)(ElemType e);
-void  ListTraverse(StaticLinkList L, visit v);
+typedef void    (*fVisit)(ElemType e);
+void  ListTraverse(StaticLinkList L, fVisit v);
 #endif
