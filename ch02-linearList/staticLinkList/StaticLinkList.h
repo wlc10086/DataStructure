@@ -29,6 +29,7 @@ typedef	struct {
 
 int malloc_SLL(StaticLinkList L);
 void free_SLL(StaticLinkList L, int index);
+
 Status	InitList(StaticLinkList L);
 Status	ListInsert(StaticLinkList L, int i, ElemType e);	//在静态链表的位置i插入元素e
 int		ListLength(StaticLinkList L);	//返回静态链表的长度
