@@ -3,6 +3,7 @@
 #define MAXTREESIZE 100
 typedef char DataType;
 
+// 双亲存储表示法
 typedef struct {
 	DataType data;
 	int parent;
@@ -14,7 +15,7 @@ typedef struct {
 	int root;
 }PTree;
 
-
+// 孩子链表表示法
 typedef struct CTNode {
 	int child;
 	struct CTNode* next;

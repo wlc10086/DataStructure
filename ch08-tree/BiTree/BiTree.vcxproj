@@ -142,6 +142,7 @@
     <ClInclude Include="BiTree.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BiTree.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

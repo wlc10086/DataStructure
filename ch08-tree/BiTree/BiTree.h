@@ -2,60 +2,42 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef char DataType;
+typedef int Boolean;
+#define TRUE 1
+#define FALSE 0
 
+typedef char DataType;
 typedef struct BiNode {
 	DataType data;
 	struct BiNode* lchild, * rchild;
-}BiNode, *BiTree;
+}BiNode, * BiTree;
 
 // 
-void PreOrderTraverse(BiTree* T) {
-	if (*T != NULL) {
-		printf("%c", (*T)->data);
-		PreOrderTraverse(&(*T)->lchild);
-		PreOrderTraverse(&(*T)->rchild);
-	}
-}
 
-void InOrderTraverse(BiTree* T) {
-	if (*T != NULL) {
-		PreOrderTraverse(&(*T)->lchild);
-		printf("%c", (*T)->data);
-		PreOrderTraverse(&(*T)->rchild);
-	}
-}
-
-void PostOrderTraverse(BiTree* T) {
-	if (*T != NULL) {
-		PreOrderTraverse(&(*T)->lchild);
-		PreOrderTraverse(&(*T)->rchild);
-		printf("%c", (*T)->data);
-	}
-}
 
 // 前序遍历的顺序创建二叉树
-void CreateBiTree(BiTree* T) {
-	char c;
-	scanf_s("%c", &c);
-	if ('#' == c) {
-		*T = NULL;
-	}
-	else {
-		*T = (BiNode*)malloc(sizeof(BiNode));
-		(*T)->data = c;
-		CreateBiTree(&(*T)->lchild);
-		CreateBiTree(&(*T)->rchild);
-	}
-}
+void CreateBiTree(BiTree* T);
 
-// 删除二叉树，使用后序遍历的顺序
-void DeleteBiTree(BiTree* T) {
-	if (*T != NULL) {
-		DeleteBiTree(&(*T)->lchild);
-		DeleteBiTree(&(*T)->rchild);
-		
-		free(*T);
-		*T = NULL;
-	}
-}
+// 销毁二叉树（使用后序遍历）
+void DestroyTree(BiTree* T);
+
+/*初始条件：二叉树T存在。 
+	操作结果：将二叉树T清为空树。 */
+Boolean ClearBiTree(BiTree T);
+
+/* 初始条件：二叉树T存在。 
+	操作结果：若T为空二叉树,则返回TURE,否则FALSE。 */
+Boolean TreeEmpty(BiTree T);
+
+/* 初始条件：二叉树T存在。 
+	操作结果：返回T的深度。 */
+int TreeDepth(BiTree T);
+
+// 三种方法遍历二叉树
+void PreOrderTraverse(BiTree* T);
+void InOrderTraverse(BiTree* T);
+void PostOrderTraverse(BiTree* T);
+
+
+
+
