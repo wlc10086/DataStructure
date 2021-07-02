@@ -11,7 +11,7 @@ typedef struct EdgeType {
 
 // ∂•µ„¿‡–Õ
 typedef struct VertexType {
-	DataType data;
+	DataType data;			// 
 	EdgeType* firstEdge;
 }VertexType;
 

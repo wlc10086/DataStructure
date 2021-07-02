@@ -19,8 +19,12 @@ typedef struct EdgeData {
 	int weight;
 }EdgeData;
 
+// 迪杰斯特拉算法
+// G: 图
+// vs: 自定义的起始点索引
+// pre: 最短路径情况，每一个点最短路径情况的前一个点的索引
 void dijkstra(MGraph G, 
-	int start_node, 
+	int vs, 
 	int prev[], 
 	int dist[])
 {
@@ -34,12 +38,12 @@ void dijkstra(MGraph G,
     {
         flag[i] = 0;              // 顶点i的最短路径还没获取到。
         prev[i] = 0;              // 顶点i的前驱顶点为0。
-        dist[i] = G.edges[start_node][i];// 顶点i的最短路径为"顶点vs"到"顶点i"的权。
+        dist[i] = G.edges[vs][i];// 顶点i的最短路径为"顶点vs"到"顶点i"的权。
     }
 
     // 对"顶点vs"自身进行初始化
-    flag[start_node] = 1;
-    dist[start_node] = 0;
+    flag[vs] = 1;
+    dist[vs] = 0;
 
     // 遍历G.vexnum-1次；每次找出一个顶点的最短路径。
     for (i = 1; i < G.numOfVertex; i++)
@@ -72,12 +76,42 @@ void dijkstra(MGraph G,
     }
 
     // 打印dijkstra最短路径的结果
-    printf("dijkstra(%c): \n", G.vertexs[start_node]);
+    printf("dijkstra(%c): \n", G.vertexs[vs]);
     for (i = 0; i < G.numOfVertex; i++)
-        printf("  shortest(%c, %c)=%d\n", G.vertexs[start_node], G.vertexs[i], dist[i]);
+        printf("  shortest(%c, %c)=%d\n", G.vertexs[vs], G.vertexs[i], dist[i]);
 }
+
+
+#define NUM_OF_VERTEX 7
+VertexType g_vertex[NUM_OF_VERTEX] = { 'A','B','C','D','E','F','G' };
+
+EdgeType g_graph[NUM_OF_VERTEX][NUM_OF_VERTEX] = {
+    {  0, 12,INF,INF,INF, 16, 14},// 0
+    { 12,  0, 10,INF,INF,  7,INF},// 1
+    {INF, 10,  0,  3,  5,  6,INF},// 2
+    {INF,INF,  3,  0,  4,INF,INF},// 3
+    {INF,INF,  5,  4,  0,  2,  8},// 4
+    { 16,  7,  6,INF,  2,  0,  9},// 5
+    { 14,INF,INF,INF,  8,  9,  0},// 6
+};
 
 int main()
 {
-	return 0;
+    // 初始化图
+    MGraph G;
+    for (int i = 0; i < NUM_OF_VERTEX; i++) {
+        for (int k = 0; k < NUM_OF_VERTEX; k++) {
+            G.edges[i][k] = g_graph[i][k];
+        }
+    }
+    G.numOfVertex = NUM_OF_VERTEX;
+    G.numOfEdge = 12;
+    for (int i = 0; i < NUM_OF_VERTEX; i++) {
+        G.vertexs[i] = g_vertex[i];
+    }
+
+    int S[7] = { 0 };
+    int U[7] = { 0 };
+    dijkstra(G, 3, S, U);
+    return 0;
 }

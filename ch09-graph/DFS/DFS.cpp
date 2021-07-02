@@ -61,9 +61,6 @@ void DFS_simple(MGraph *g) {
 }
 
 
-void BFS(MGraph* g) {
-
-}
 
 int main()
 {

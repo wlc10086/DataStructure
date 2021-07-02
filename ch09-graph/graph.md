@@ -70,7 +70,7 @@ typedef struct
 
 
 ## 2.2 邻接表和逆连接表(Adjacency List)
-**邻接表(Adjacency List)**是图的一种链式存储结构，它既可以存放有向图也可以存放无向图。**它关注的是点**。  
+**邻接表(Adjacency List)**是图的一种链式存储结构，它既可以存放有向图也可以存放无向图。<font color=red>**它关注的是点**</font>。  
 
 ### 2.2.1 无向邻接表
 
@@ -145,7 +145,7 @@ typedef struct {
 
 有时为了确定顶点的入度或以顶点为弧头的弧，我们可以建立一个有向图的逆邻接表。把定点当弧头建立的邻接表，这样容易得到每个顶点的**入度**
 
-![img](../images/ch09-02-02-03.png)   
+<img src="../images/ch09-02-02-03.png" alt="img" style="zoom:80%;" />   
 
 
 
@@ -176,14 +176,14 @@ typedef struct ArcType {
 
 typedef struct VertexType {
 	DataType data;
-	ArcType* firstIn;
-	ArcType* firstOut;
+	ArcType* firstIn;	// 第一条入弧
+	ArcType* firstOut;	// 第一条出弧
 }VertexType;
 
 typedef struct {
-	VertexType vertexs[MAX_VERTEX_NUM];
-	int numOfVertex;
-	int numOfArc;
+	VertexType vertexs[MAX_VERTEX_NUM];	// 顶点集
+	int numOfVertex;// 顶点数
+	int numOfArc;	// 弧数
 }OLGraph;
 ```
 
@@ -227,8 +227,10 @@ typedef struct {
 typedef enum {unvisited,visited} VisitIf;    //边标志域
 typedef struct EBox{
     VisitIf mark;                           //标志域
-    int ivex,jvex;                          //边两边顶点在数组中的位置下标
-    struct EBox * ilink,*jlink;             //分别指向与ivex、jvex相关的下一个边
+    int ivex;                          //边两边顶点在数组中的位置下标
+    struct EBox * ilink;//指向与ivex相关的下一个边
+    int jvex;
+    struct EBox *jlink; //指向与jvex相关的下一个边
     InfoType *info;                         //边包含的其它的信息域的指针
 }EBox;
 
@@ -249,11 +251,9 @@ typedef struct {
 
 从图的某一个顶点出发访遍途中的其余顶点，且使每一个顶点仅被访问一次，这一过程叫做图的遍历。  
 
-
-
 ## 3.1 深度优先遍历（DFS）
 
-该方法类似于树的前序遍历。
+该方法类似于树的**前序遍历**。
 
 假设初始状态是图中所有顶点未曾被访问，则深度优先搜索从图像中通过某个顶点v出发。访问次顶点，然后依次从v的未被访问的邻接点出发深度优先遍历图，直至途中所有和v有路径相通的顶点都被访问到；若此时图中尚有顶点未被访问，则另选途中一个未曾被访问的顶点作起点，重复上述过程，直至图中所有顶点都被访问到为止。
 
@@ -263,21 +263,27 @@ typedef struct {
 
 ## 3.2 广度优先遍历（BFS）
 
-类似于树的层序遍历，要实现对图的广度遍历，可以利用**队列**来实现。  
-<img src="../images/ch09-03-02_1.jpg" alt="img" style="zoom:80%;" />   
+类似于树的**层序遍历**，要实现对图的广度遍历，可以利用**队列**来实现。  
+<img src="../images/ch09-03-02_1.jpg" alt="img" style="zoom: 80%;" />   
 ![img](../images/ch09-03-02_2.png)  
+
+
+
+
 
 
 
 # 4 最小生成树(MST)
 
-给定一个**带权**的无向连通图，如何选取一棵生成树，使树上所有边上权的总和为最小，这叫**最小生成树.**
+给定一个**带权**的**无向连通图**，如何**选取一棵生成树，使树上所有边上权的总和为最小**，这叫**最小生成树.**
 * 是一棵树，无回路，N个顶点，则有N-1条边  
 * 包含全部顶点，N-1条边都在图中  
 
 <img src="../images/ch09-04_1.png" style="zoom: 80%;" />   
 
-## 4.1 普里姆算法
+
+
+## 4.1 普里姆算法（稠密图）
 
 ## （一）定义
 
@@ -289,7 +295,7 @@ typedef struct {
 
 ##  （二）算法思路
 
-设图G=(V,E)，U是顶点集V的一个非空子集。假设(u,v)是一条具有最小权值的边。当中u∈U,v∈V-U,则必存在一棵包括边(u,v)的最小生成树.  
+设图G=(V,E)，U是顶点集V的一个非空子集。假设(u,v)是一条具有最小权值的边。当中u∈U,v∈V-U，则必存在一棵包括边(u,v)的最小生成树.  
 上述的性质能够通过反证法证明。假设(u,v)不包括在G的最小生成树T中。那么，T的路径中必定存在一条连通U和V-U的边，假设将这条边以(u,v)来替换，我们将获得一个权重更低的生成树，这与T是最小生成树矛盾.既然MST满足贪婪选择属性。那么。求解最小生成树的问题就简化了非常多。  
 
 总结一下，详细的步骤大概例如以下：
@@ -300,7 +306,7 @@ typedef struct {
 4.从V-T中选择赋值最小的节点，增加T中
 5.假设V-T非空，继续步骤3～5，否则算法终结
 ```
-<img src="../images/ch09-04-01.png" style="zoom: 67%;" />   
+<img src="../images/ch09-04-01.png" style="zoom: 70%;" />   
 
 
 
@@ -321,11 +327,9 @@ typedef struct {
 
 迪杰斯特拉算法求的是一个顶点到所有顶点的最短路径。    
 
-**基本思想**
-
-   通过Dijkstra计算图G中的最短路径时，需要指定一个起点s(即从顶点s开始计算)。
-
-   此外，引进两个集合S和U。**S的作用是记录已求出最短路径的顶点(以及相应的最短路径长度)，而U则是记录还未求出最短路径的顶点(以及该顶点到起点s的距离)。**
+**基本思想**  
+   通过Dijkstra计算图G中的最短路径时，需要指定一个起点s(即从顶点s开始计算)。  
+   此外，<font color=red>引进两个集合S和U。**S的作用是记录已求出最短路径的顶点(以及相应的最短路径长度)，而U则是记录还未求出最短路径的顶点(以及该顶点到起点s的距离)。**</font>
 
    初始时，S中只有起点s；U中是除s之外的顶点，并且U中顶点的路径是"起点s到该顶点的路径"。然后，从U中找出路径最短的顶点，并将其加入到S中；接着，更新U中的顶点和顶点对应的路径。 然后，再从U中找出路径最短的顶点，并将其加入到S中；接着，更新U中的顶点和顶点对应的路径。 ... 重复该操作，直到遍历完所有顶点。
 **操作步骤**
